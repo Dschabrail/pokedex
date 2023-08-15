@@ -8,34 +8,20 @@ function init() {
 }
 
 
-function showPokecard(id){
+function showPokecard(id, background, typeDivs){
   document.getElementById('pokedex-section').classList.add('d-none');
   document.getElementById('pokemon-card-section').classList.remove('d-none');
-
-  loadPokecard(id);
+  let type = JSON.parse(decodeURIComponent(typeDivs));
+  loadPokecard(id, background, type);
 }
 
 
-async function loadPokecard(id) {
+async function loadPokecard(id, background, type) {
   let url = `${API_URLS.pokemon}${id}`;
   let response = await fetch(url);
   currentPokemon = await response.json();
 
-  renderPokemonInfo(id);
-}
-
-
-function renderPokemonInfo(id) {
-  renderName(id);
-  document.getElementById("image-of-pokemon").src =
-    currentPokemon["sprites"]["other"]["home"]["front_shiny"];
-}
-
-
-function renderName() {
-  let pokemonName = currentPokemon["name"];
-  let name = pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1);
-  document.getElementById("pokemon-name").innerHTML = name;
+  renderPokemonInfo(background, type);
 }
 
 
